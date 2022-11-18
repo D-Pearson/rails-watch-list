@@ -4,5 +4,20 @@
     <strong>List name:</strong>
     <%= @list.name %>
   </p>
+  <div>
+    <%= simple_form_for [@list, @bookmark] do |f| %>
+      <%= f.input :comment, placeholder: 'Enter a comment about this movie' %>
+      <%= f.association :movie, prompt: 'select a movie' %>
+      <%= f.button :submit %>
+    <% end %>
+  </div>
+
+  <% @list.movies.each do |movie| %>
+    <% bookmark = Bookmark.find_by(list: @list, movie: movie) %>
+    <%= movie.title %><%= movie.rating %>
+    <%= movie.overview %>
+    <%= bookmark.comment %>
+  <% end %>
+
 
   <%= link_to "Back to lists", lists_path, class: "btn btn-primary" %>
